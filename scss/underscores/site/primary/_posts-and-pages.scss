@@ -305,7 +305,7 @@
             //padding-top: ( $grid-gutter-width * .25 );
         }
     }
-    .post blockquote, .post q, .post .entry-content img.alignleft, .post .entry-content img.alignnone, .post .entry-content figure.alignleft, .post .entry-content figure.alignnone {
+    .post blockquote, .post q, .post .entry-content img.alignleft, .post .entry-content img.alignnone, .post .entry-content img.wp-block-image, .post .entry-content figure.alignleft, .post .entry-content figure.alignnone, .post .entry-content figure.wp-block-image {
 	margin-left: 0;
 	font-style: normal;
     }

@@ -22,7 +22,7 @@
 
 	<div class="row">
 		
-	<div class="entry-content col-md-10 col-md-push-2">
+	<div class="entry-content col-md-10 col-md-push-2 loose_script_entry_content_h6">
 		<?php the_content(); ?>
 		<?php
 			wp_link_pages(

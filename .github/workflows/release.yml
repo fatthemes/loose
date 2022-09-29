@@ -1,0 +1,43 @@
+name: Theme release
+on:
+  release:
+    types: [created]
+
+jobs:
+  release-on-tag:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup PHP 7.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '7.4'
+    
+      - name: Version Check And Build
+        run: |
+          TAG=$(echo ${{ github.event.release.tag_name }} | grep -Po "\d\d?\.\d\d?\.?\d?\d?")
+          echo $TAG
+          VERSION_LINE=$(grep -Po "Version:\s?\s?\d\d?\.\d\d?\.?\d?\d?.*" $PWD/style.css)
+          VERSION=$(echo $VERSION_LINE | grep -Po "\d\d?\.\d\d?\.?\d?\d?")
+          echo $VERSION
+          if [ $TAG != $VERSION ]; then echo "Wrong theme/tag version - version from repo tag is $TAG but theme version from style.css is $THEMEVERSION" && exit 1 ;fi
+          grep -q "\[$VERSION\]" $PWD/CHANGELOG.md
+          grep -q "\[$VERSION\]" $PWD/CHANGELOG.md
+          sudo apt-get update && sudo apt-get install -y zip
+          sudo npm install grunt-cli -g --force
+          npm install --silent
+          grunt
+          rm -rf *.yml .drone.yml .g* .j* .n* .v* scss sass node_modules vendor tests Gruntfile.js casper-tests.js package.json *.ruleset.xml nbproject *.rb *.tmp *.map css/*.map slick/*.map *.log Dockerfile
+          zip -FSr ${{ github.event.repository.name }} ./*
+
+      - name: Upload Release Asset
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
+          asset_path: ./${{ github.event.repository.name }}.zip
+          asset_name: ${{ github.event.repository.name }}.zip
+          asset_content_type: application/zip

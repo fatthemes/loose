@@ -9,10 +9,10 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Setup PHP 7.4
+      - name: Setup PHP 8.0
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '7.4'
+          php-version: '8.0'
     
       - name: Version Check And Build
         run: |
@@ -24,8 +24,7 @@ jobs:
           if [ $TAG != $VERSION ]; then echo "Wrong theme/tag version - version from repo tag is $TAG but theme version from style.css is $THEMEVERSION" && exit 1 ;fi
           grep -q "\[$VERSION\]" $PWD/CHANGELOG.md
           grep -q "\[$VERSION\]" $PWD/CHANGELOG.md
-          sudo apt-get update && sudo apt-get install -y zip
-          sudo npm install grunt-cli -g --force
+          npm install grunt-cli -g --force
           npm install --silent
           grunt
           rm -rf *.yml .drone.yml .g* .j* .n* .v* scss sass node_modules vendor tests Gruntfile.js casper-tests.js package.json *.ruleset.xml nbproject *.rb *.tmp *.map css/*.map slick/*.map *.log Dockerfile

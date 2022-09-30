@@ -5,12 +5,12 @@ Theme URI: https://blogonyourown.com/themes/loose/
 Author: BlogOnYourOwn.com
 Author URI: https://blogonyourown.com
 Description: Loose is a simply, elegant & modern WordPress Blog Theme. Elegantly showcase your articles, photos, videos and more. This clean layout suitable for any type of site. Can be used for blog, magazine, news or fashion website. Loose is a minimal blog and magazine WordPress theme focused on content. With Loose you can create your own unique layout and style. Loose is fully responsive and looks great on any device. Loose have many features including: 3 Homepage Layouts, 4 Post Formats, 2 Page Layouts, 2 Single Post Layouts, 3 Widget Areas: Right Sidebar, Left Sidebar / Left Menu & Top, Sticky Sidebar, 2 Menus: Top Menu & Left Menu (main, mobile menu – toggled with button), all Theme Options Easily Customized by Native WordPress Customizer (Live Preview), Translation Ready and much much more. Child Template may be downloaded from our website. Tested with block editor (Gutenberg). Support for AMP. Loose is easy to customize and well documented with great support and friendly help:) Enjoy:)
-Version: 1.3.5
+Version: 1.3.6
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: loose
-Requires PHP: 5.2.4
-Tested up to: 5.6
+Requires PHP: 5.6.30
+Tested up to: 6.0.2
 Tags: translation-ready, grid-layout, blog, news, left-sidebar, right-sidebar, custom-background, two-columns, three-columns, featured-images, full-width-template, post-formats, sticky-post, theme-options, threaded-comments
 
 Loose WordPress Theme, Copyright 2016-2019, BlogOnYourOwn.com
@@ -1838,10 +1838,10 @@ img, figure {
 }
 
 @media (min-width: 48em) {
-  .post blockquote, .post q, .post .entry-content img.alignleft, .post .entry-content img.alignnone, .post .entry-content figure.alignleft, .post .entry-content figure.alignnone {
+  .post blockquote, .post q, .post .entry-content img.alignleft, .post .entry-content img.alignnone, .post .entry-content img.wp-block-image, .post .entry-content figure.alignleft, .post .entry-content figure.alignnone, .post .entry-content figure.wp-block-image {
     margin-left: -21.666%;
   }
-  .post .entry-content img.alignnone, .post .entry-content figure.alignnone {
+  .post .entry-content img.alignnone, .post .entry-content figure.alignnone, .post .entry-content img.wp-block-image, .post .entry-content figure.wp-block-image {
     min-width: 121.666%;
   }
   .single blockquote, .single q, .page blockquote, .page q {
@@ -1956,6 +1956,10 @@ a:hover, a:active {
 
 h1 a, .site-title a, h2 a, h3 a, h4 a, h5 a, h6 a, .entry-meta .byline a, .entry-meta .posted-on a, .entry-meta .loose-post-format a, .navigation a, .main-navigation a {
   border-bottom: none;
+}
+
+.main-navigation a {
+  text-align: left !important;
 }
 
 .edit-link {
@@ -2880,7 +2884,7 @@ h1 a, .site-title a, h2 a, h3 a, h4 a, h5 a, h6 a, .entry-meta .byline a, .entry
   margin-bottom: 2.5rem;
 }
 
-.blog .post blockquote, .blog .post q, .blog .post .entry-content img.alignleft, .blog .post .entry-content img.alignnone, .blog .post .entry-content figure.alignleft, .blog .post .entry-content figure.alignnone, .archive .post blockquote, .archive .post q, .archive .post .entry-content img.alignleft, .archive .post .entry-content img.alignnone, .archive .post .entry-content figure.alignleft, .archive .post .entry-content figure.alignnone, .search .post blockquote, .search .post q, .search .post .entry-content img.alignleft, .search .post .entry-content img.alignnone, .search .post .entry-content figure.alignleft, .search .post .entry-content figure.alignnone {
+.blog .post blockquote, .blog .post q, .blog .post .entry-content img.alignleft, .blog .post .entry-content img.alignnone, .blog .post .entry-content img.wp-block-image, .blog .post .entry-content figure.alignleft, .blog .post .entry-content figure.alignnone, .blog .post .entry-content figure.wp-block-image, .archive .post blockquote, .archive .post q, .archive .post .entry-content img.alignleft, .archive .post .entry-content img.alignnone, .archive .post .entry-content img.wp-block-image, .archive .post .entry-content figure.alignleft, .archive .post .entry-content figure.alignnone, .archive .post .entry-content figure.wp-block-image, .search .post blockquote, .search .post q, .search .post .entry-content img.alignleft, .search .post .entry-content img.alignnone, .search .post .entry-content img.wp-block-image, .search .post .entry-content figure.alignleft, .search .post .entry-content figure.alignnone, .search .post .entry-content figure.wp-block-image {
   margin-left: 0;
   font-style: normal;
 }

@@ -21,7 +21,12 @@ a {
 h1 a, h2 a, h3 a, h4 a, h5 a, h6 a, .navigation a, .main-navigation a {
     border-bottom: none;
 }
-
+.main-navigation a{
+	text-align: left !important;
+}
+// .loose_script_entry_content_h6 h6{
+// 	margin-top: 6%;
+// }
 .edit-link {
     margin-left: 2em;
     font-weight: 700;

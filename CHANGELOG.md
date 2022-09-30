@@ -1,5 +1,10 @@
 # Change Log - Loose
 
+## [1.3.6] - 2022-09-30
+
+### Fixed
+- image alignment
+
 ## [1.3.5] - 2021-01-05
 
 ### Fixed

@@ -1,6 +1,7 @@
 === Loose ===
 Contributors: limestreet, moniula
 Requires at least: 4.4
+Tested up to: 6.0.2
 License: GNU General Public License v2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: translation-ready, grid-layout, blog, news, left-sidebar, right-sidebar, custom-background, two-columns, three-columns, featured-images, full-width-template, post-formats, sticky-post, theme-options, threaded-comments

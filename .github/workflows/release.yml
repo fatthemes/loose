@@ -24,6 +24,8 @@ jobs:
           if [ $TAG != $VERSION ]; then echo "Wrong theme/tag version - version from repo tag is $TAG but theme version from style.css is $THEMEVERSION" && exit 1 ;fi
           grep -q "\[$VERSION\]" $PWD/CHANGELOG.md
           grep -q "\[$VERSION\]" $PWD/CHANGELOG.md
+          ls -la
+          whoami
           npm install grunt-cli -g --force
           npm install --silent
           grunt

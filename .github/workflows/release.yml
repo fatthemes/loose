@@ -24,14 +24,9 @@ jobs:
           if [ $TAG != $VERSION ]; then echo "Wrong theme/tag version - version from repo tag is $TAG but theme version from style.css is $THEMEVERSION" && exit 1 ;fi
           grep -q "\[$VERSION\]" $PWD/CHANGELOG.md
           grep -q "\[$VERSION\]" $PWD/CHANGELOG.md
-          # ls -la
-          echo "1"
           npm install grunt-cli -g --force
-          echo "2"
-          npm install
-          echo "3"
+          npm install --silent
           grunt
-          echo "4"
           rm -rf *.yml .drone.yml .g* .j* .n* .v* scss sass node_modules vendor tests Gruntfile.js casper-tests.js package.json *.ruleset.xml nbproject *.rb *.tmp *.map css/*.map slick/*.map *.log Dockerfile
           zip -FSr ${{ github.event.repository.name }} ./*
 

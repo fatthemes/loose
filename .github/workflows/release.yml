@@ -28,7 +28,7 @@ jobs:
           echo "1"
           npm install grunt-cli -g --force
           echo "2"
-          npm install --silent
+          npm install
           echo "3"
           grunt
           echo "4"

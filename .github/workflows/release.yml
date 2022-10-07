@@ -28,7 +28,9 @@ jobs:
           npm install --silent
           grunt
           rm -rf *.yml .drone.yml .g* .j* .n* .v* scss sass node_modules vendor tests Gruntfile.js casper-tests.js package.json *.ruleset.xml nbproject *.rb *.tmp *.map css/*.map slick/*.map *.log Dockerfile
-          zip -FSr ${{ github.event.repository.name }} ./*
+          cd ..
+          ls -la
+          zip -FSr ${{ github.event.repository.name }} ${{ github.event.repository.name }}
 
       - name: Upload Release Asset
         id: upload-release-asset 

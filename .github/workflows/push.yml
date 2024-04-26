@@ -39,7 +39,7 @@ jobs:
       - name: Codetest - latest PHP
         run: |
           git clone -b master --depth 1 https://github.com/squizlabs/PHP_CodeSniffer.git $PHPCS_DIR
-          git clone -b master --depth 1 https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $WPCS_DIR
+          git clone -b main --depth 1 https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $WPCS_DIR
           git clone -b master --depth 1 https://github.com/wimg/PHPCompatibility.git $PHPCompatibility
           git clone -b master --depth 1 https://github.com/PHPCompatibility/PHPCompatibilityWP.git $PHPCompatibilityWP
           git clone -b master --depth 1 https://github.com/PHPCompatibility/PHPCompatibilityParagonie $PHPCompatibilityParagonie

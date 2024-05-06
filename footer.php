@@ -37,7 +37,7 @@
 								?>
 					</nav><!-- #site-navigation -->
 					<div class="left-nav-social">
-						<?php echo loose_social_profiles(); // WPCS: XSS OK. ?>
+						<?php echo esc_html( loose_social_profiles() ); ?>
 					</div>
 					<?php get_sidebar( 'left' ); ?>
 					<div class="site-info">

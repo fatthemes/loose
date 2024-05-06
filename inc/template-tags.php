@@ -33,7 +33,7 @@ if ( ! function_exists( 'loose_posted_on' ) ) :
 			'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
 		);
 
-		echo '<span class="byline"> ' . $byline . '</span><span class="posted-on"> / ' . $posted_on . '</span>'; // WPCS: XSS OK.
+		echo '<span class="byline"> ' . esc_html( $byline ) . '</span><span class="posted-on"> / ' . esc_html( $posted_on ) . '</span>'; // WPCS: XSS OK.
 	}
 
 endif;
@@ -51,7 +51,7 @@ if ( ! function_exists( 'loose_entry_footer' ) ) :
 			$tags_list = get_the_tag_list( '', ', ' );
 			if ( $tags_list ) {
 				/* translators: tag list */
-				printf( '<span class="tags-links">' . esc_html__( 'Tagged: %1$s', 'loose' ) . '</span>', $tags_list ); // WPCS: XSS OK.
+				printf( '<span class="tags-links">' . esc_html__( 'Tagged: %1$s', 'loose' ) . '</span>', esc_html( $tags_list ) ); // WPCS: XSS OK.
 			}
 		}
 
@@ -303,7 +303,7 @@ if ( ! function_exists( 'loose_gallery_content' ) ) :
 		$newcontent = preg_replace( $pattern, $replacement, $content, 1 );
 		$newcontent = apply_filters( 'the_content', $newcontent ); // WPCS: prefix ok.
 		$newcontent = str_replace( ']]>', ']]&gt;', $newcontent );
-		echo $newcontent; // WPCS: XSS OK.
+		echo esc_html( $newcontent ); // WPCS: XSS OK.
 	}
 
 	endif;
@@ -327,7 +327,7 @@ if ( ! function_exists( 'loose_media_content' ) ) :
 
 		$newcontent = preg_replace( '#<(?P<tag>' . $tags . ')[^<]*?(?:>[\s\S]*?<\/(?P=tag)>|\s*\/>)#', $replacement, $content, 1 );
 
-		echo $newcontent; // WPCS: XSS OK.
+		echo esc_html( $newcontent ); // WPCS: XSS OK.
 	}
 
 	endif;
@@ -625,7 +625,7 @@ if ( ! function_exists( 'loose_the_content' ) ) :
 				$content = str_replace( ']]>', ']]&gt;', $content );
 				$regex = '/<cite>.*<\/cite>/s';
 				$content = preg_replace( $regex, '', $content );
-				echo '<a href="' . get_permalink() . '">' . $content . '</a>'; // WPCS: XSS OK.
+				echo '<a href="' . esc_html( get_permalink() ) . '">' . esc_html( $content ) . '</a>'; // WPCS: XSS OK.
 			}
 		} else {
 			if ( 'content' === get_theme_mod( 'show_content_or_excerpt', 'title' ) ) {

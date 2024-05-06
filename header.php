@@ -46,7 +46,7 @@
 <p class="site-description"><?php bloginfo( 'description' ); ?></p><?php endif; ?>
 						
 			<div class="nav-social">
-				<?php echo loose_social_profiles(); // WPCS: XSS OK. ?>
+				<?php echo esc_html( loose_social_profiles() ); ?>
 			</div>
 						
 		</div><!-- .site-branding -->

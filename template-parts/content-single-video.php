@@ -23,11 +23,11 @@
 		<div class="featured-media row">
 				<div class="featured-image col-md-12"> 
 				<?php
-				echo esc_html( hybrid_media_grabber(
+				echo hybrid_media_grabber( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					array(
 						'type' => 'video',
 					)
-				) );
+				);
 				?>
 
 									  </div>

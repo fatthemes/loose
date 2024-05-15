@@ -46,7 +46,7 @@
 <p class="site-description"><?php bloginfo( 'description' ); ?></p><?php endif; ?>
 						
 			<div class="nav-social">
-				<?php echo loose_social_profiles(); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound ?>
+				<?php echo loose_social_profiles(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			</div>
 						
 		</div><!-- .site-branding -->

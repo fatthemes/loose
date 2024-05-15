@@ -37,7 +37,7 @@
 								?>
 					</nav><!-- #site-navigation -->
 					<div class="left-nav-social">
-						<?php echo esc_html( loose_social_profiles() ); ?>
+						<?php echo loose_social_profiles(); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound ?>
 					</div>
 					<?php get_sidebar( 'left' ); ?>
 					<div class="site-info">

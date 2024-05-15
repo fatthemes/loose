@@ -303,7 +303,7 @@ if ( ! function_exists( 'loose_gallery_content' ) ) :
 		$newcontent = preg_replace( $pattern, $replacement, $content, 1 );
 		$newcontent = apply_filters( 'the_content', $newcontent ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$newcontent = str_replace( ']]>', ']]&gt;', $newcontent );
-		echo esc_html( $newcontent ); // WPCS: XSS OK.
+		echo $newcontent; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	endif;
@@ -327,7 +327,7 @@ if ( ! function_exists( 'loose_media_content' ) ) :
 
 		$newcontent = preg_replace( '#<(?P<tag>' . $tags . ')[^<]*?(?:>[\s\S]*?<\/(?P=tag)>|\s*\/>)#', $replacement, $content, 1 );
 
-		echo esc_html( $newcontent ); // WPCS: XSS OK.
+		echo $newcontent; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	endif;
@@ -623,7 +623,7 @@ if ( ! function_exists( 'loose_the_content' ) ) :
 				$content = str_replace( ']]>', ']]&gt;', $content );
 				$regex = '/<cite>.*<\/cite>/s';
 				$content = preg_replace( $regex, '', $content );
-				echo '<a href="' . esc_html( get_permalink() ) . '">' . esc_html( $content ) . '</a>'; // WPCS: XSS OK.
+				echo '<a href="' . get_permalink() . '">' . $content . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		} elseif ( 'content' === get_theme_mod( 'show_content_or_excerpt', 'title' ) ) {
 			the_content( __( 'Continue reading &rarr;', 'loose' ) );

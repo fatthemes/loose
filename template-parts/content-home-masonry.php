@@ -28,7 +28,7 @@
 			</a>
 			</div>
 		<?php endif; ?>
-		<?php echo esc_html( loose_post_format_icon( get_the_ID() ) ); ?>
+		<?php echo loose_post_format_icon( get_the_ID() ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound ?>
 		<?php
 		if ( ! has_post_format( 'aside' ) && ! has_post_format( 'link' ) && ! has_post_format( 'quote' ) && ! has_post_format( 'image' ) ) :
 			?>

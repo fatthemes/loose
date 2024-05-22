@@ -79,10 +79,10 @@ if ( ! function_exists( 'loose_categorized_blog' ) ) :
 			// Create an array of all the categories that are attached to posts.
 			$all_the_cool_cats = get_categories(
 				array(
-					'fields' => 'ids',
+					'fields'     => 'ids',
 					'hide_empty' => 1,
 					// We only need to know if there is more than one category.
-					'number' => 2,
+					'number'     => 2,
 				)
 			);
 
@@ -157,10 +157,10 @@ if ( ! function_exists( 'loose_comment' ) ) :
 						array_merge(
 							$args,
 							array(
-								'depth' => $depth,
-								'max_depth' => $args['max_depth'],
+								'depth'      => $depth,
+								'max_depth'  => $args['max_depth'],
 								'reply_text' => 'REPLY',
-								'before' => ' &#8901; ',
+								'before'     => ' &#8901; ',
 							)
 						)
 					);
@@ -201,10 +201,10 @@ if ( ! function_exists( 'loose_comments_fields' ) ) :
 			$args['format'] = current_theme_supports( 'html5', 'comment-form' ) ? 'html5' : 'xhtml';
 		}
 
-		$req = get_option( 'require_name_email' );
+		$req      = get_option( 'require_name_email' );
 		$aria_req = ( $req ? ' aria-required="true"' : '' );
 		$html_req = ( $req ? ' required="required"' : '' );
-		$html5 = 'html5' === $args['format'];
+		$html5    = 'html5' === $args['format'];
 
 		$fields = array(
 			'author' => '<div class="comment-fields"><p class="comment-form-author"><label for="author">' . esc_html__( 'Name', 'loose' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
@@ -230,11 +230,11 @@ if ( ! function_exists( 'loose_comments_fields' ) ) :
 	 * @return      string
 	 */
 function loose_get_excerpt_by_id( $post_id ) {
-	$the_post = get_post( $post_id ); // Gets post ID.
-	$the_excerpt = $the_post->post_content; // Gets post_content to be used as a basis for the excerpt.
+	$the_post       = get_post( $post_id ); // Gets post ID.
+	$the_excerpt    = $the_post->post_content; // Gets post_content to be used as a basis for the excerpt.
 	$excerpt_length = 35; // Sets excerpt length by word count.
-	$the_excerpt = strip_tags( strip_shortcodes( $the_excerpt ) ); // Strips tags and images.
-	$words = explode( ' ', $the_excerpt, $excerpt_length + 1 );
+	$the_excerpt    = strip_tags( strip_shortcodes( $the_excerpt ) ); // Strips tags and images.
+	$words          = explode( ' ', $the_excerpt, $excerpt_length + 1 );
 
 	if ( count( $words ) > $excerpt_length ) :
 		array_pop( $words );
@@ -296,8 +296,8 @@ if ( ! function_exists( 'loose_gallery_content' ) ) :
 	 */
 	function loose_gallery_content() {
 		/* translators: post title */
-		$content = get_the_content( sprintf( __( 'Read more %s <span class="meta-nav">&rarr;</span>', 'loose' ), the_title( '<span class="screen-reader-text">"', '"</span>', false ) ) );
-		$pattern = '#\[gallery[^\]]*\]#';
+		$content     = get_the_content( sprintf( __( 'Read more %s <span class="meta-nav">&rarr;</span>', 'loose' ), the_title( '<span class="screen-reader-text">"', '"</span>', false ) ) );
+		$pattern     = '#\[gallery[^\]]*\]#';
 		$replacement = '';
 
 		$newcontent = preg_replace( $pattern, $replacement, $content, 1 );
@@ -330,29 +330,6 @@ if ( ! function_exists( 'loose_media_content' ) ) :
 		echo $newcontent; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	endif;
-
-if ( ! function_exists( 'loose_gallery_shortcode' ) ) :
-
-	/**
-	 * Custom gallery shortcode output.
-	 *
-	 * @param type  $output gellery shortcode output.
-	 * @param array $atts gellery shortcode atts.
-	 * @param type  $instance gellery shortcode instance.
-	 * @return type
-	 */
-	function loose_gallery_shortcode( $output = '', $atts, $instance ) {
-		$return = $output; // Fallback.
-
-		$atts = array(
-			'size' => 'medium',
-		);
-
-		return $output;
-	}
-
-	add_filter( 'post_gallery', 'loose_gallery_shortcode', 10, 3 );
 	endif;
 
 if ( ! function_exists( 'loose_post_format_icon' ) ) :
@@ -401,9 +378,9 @@ if ( ! function_exists( 'loose_customize_css' ) ) :
 	 */
 	function loose_customize_css() {
 		$hide_title_on_home_archive = get_theme_mod( 'hide_title_on_home_archive', 0 );
-		$hide_meta_on_home_archive = get_theme_mod( 'hide_meta_on_home_archive', 0 );
+		$hide_meta_on_home_archive  = get_theme_mod( 'hide_meta_on_home_archive', 0 );
 
-		$custom_css = '.site-branding { background-color:' . esc_attr( get_theme_mod( 'header_bg_color', '#f5f8fa' ) ) . ';}';
+		$custom_css  = '.site-branding { background-color:' . esc_attr( get_theme_mod( 'header_bg_color', '#f5f8fa' ) ) . ';}';
 		$custom_css .= '.loose-featured-slider, .loose-featured-slider .featured-image, .loose-featured-slider .no-featured-image {height:' . ( absint( get_theme_mod( 'home_page_slider_height', 500 ) ) * 0.6 ) . 'px;}';
 		$custom_css .= '.loose-home-intro, .loose-home-intro span, .widget-title span {background-color: #' . esc_attr( get_theme_mod( 'background_color', 'ffffff' ) ) . ';}';
 		$custom_css .= '#secondary .widget:nth-of-type(3n+1){background-color:' . esc_attr( get_theme_mod( 'sidebar_bg_color_1', '#f1f0ec' ) ) . ';}';
@@ -504,8 +481,8 @@ if ( ! function_exists( 'loose_submenu_span' ) ) :
 	 */
 	function loose_submenu_span( $item_output, $item, $depth, $args ) {
 
-		$needle1 = 'menu-item-has-children';
-		$needle2 = 'page_item_has_children';
+		$needle1  = 'menu-item-has-children';
+		$needle2  = 'page_item_has_children';
 		$haystack = $item->classes;
 		if ( in_array( $needle1, $haystack ) || in_array( $needle2, $haystack ) ) {
 			$item_output = $item_output . '<span class="expand-submenu" title="' . esc_html__( 'Expand', 'loose' ) . '">&#43;</span>';
@@ -531,12 +508,12 @@ if ( ! function_exists( 'loose_social_profiles' ) ) :
 
 		$output = '';
 
-		$loose_social_icons_twitter = get_theme_mod( 'social_icons_twitter' );
-		$loose_social_icons_facebook = get_theme_mod( 'social_icons_facebook' );
+		$loose_social_icons_twitter    = get_theme_mod( 'social_icons_twitter' );
+		$loose_social_icons_facebook   = get_theme_mod( 'social_icons_facebook' );
 		$loose_social_icons_googleplus = get_theme_mod( 'social_icons_googleplus' );
-		$loose_social_icons_instagram = get_theme_mod( 'social_icons_instagram' );
-		$loose_social_icons_pinterest = get_theme_mod( 'social_icons_pinterest' );
-		$loose_social_icons_youtube = get_theme_mod( 'social_icons_youtube' );
+		$loose_social_icons_instagram  = get_theme_mod( 'social_icons_instagram' );
+		$loose_social_icons_pinterest  = get_theme_mod( 'social_icons_pinterest' );
+		$loose_social_icons_youtube    = get_theme_mod( 'social_icons_youtube' );
 
 		if ( ! empty( $loose_social_icons_twitter ) ) {
 			$output .= '<a href="' . esc_url( $loose_social_icons_twitter ) . '" title="' . esc_html__( 'Twitter', 'loose' ) . '"><span class="screen-reader-text">' . esc_html__( 'Twitter', 'loose' ) . '</span><svg viewBox="0 0 26 28"><path d="M25.312 6.375q-1.047 1.531-2.531 2.609 0.016 0.219 0.016 0.656 0 2.031-0.594 4.055t-1.805 3.883-2.883 3.289-4.031 2.281-5.047 0.852q-4.234 0-7.75-2.266 0.547 0.063 1.219 0.063 3.516 0 6.266-2.156-1.641-0.031-2.938-1.008t-1.781-2.492q0.516 0.078 0.953 0.078 0.672 0 1.328-0.172-1.75-0.359-2.898-1.742t-1.148-3.211v-0.063q1.062 0.594 2.281 0.641-1.031-0.688-1.641-1.797t-0.609-2.406q0-1.375 0.688-2.547 1.891 2.328 4.602 3.727t5.805 1.555q-0.125-0.594-0.125-1.156 0-2.094 1.477-3.57t3.57-1.477q2.188 0 3.687 1.594 1.703-0.328 3.203-1.219-0.578 1.797-2.219 2.781 1.453-0.156 2.906-0.781z"></path></svg></a>';
@@ -621,7 +598,7 @@ if ( ! function_exists( 'loose_the_content' ) ) :
 				$content = get_the_content( __( 'Continue reading &rarr;', 'loose' ) );
 				$content = apply_filters( 'the_content', $content ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				$content = str_replace( ']]>', ']]&gt;', $content );
-				$regex = '/<cite>.*<\/cite>/s';
+				$regex   = '/<cite>.*<\/cite>/s';
 				$content = preg_replace( $regex, '', $content );
 				echo '<a href="' . get_permalink() . '">' . $content . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
@@ -648,7 +625,7 @@ if ( ! function_exists( 'loose_entry_meta' ) ) :
 				// Extracting link from the content.
 				$subject = get_the_content();
 				$subject = apply_filters( 'the_content', $subject ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-				$regex = '#<a\s+(?:[^>]*?\s+)?href=[\"\'](.*?)[\"\']#';
+				$regex   = '#<a\s+(?:[^>]*?\s+)?href=[\"\'](.*?)[\"\']#';
 				preg_match( $regex, $subject, $matches );
 				if ( ! empty( $matches[1] ) ) {
 					$match = $matches[1];
@@ -657,7 +634,7 @@ if ( ! function_exists( 'loose_entry_meta' ) ) :
 			} elseif ( ! is_single() && has_post_format( 'quote' ) ) {
 				$subject = get_the_content();
 				$subject = apply_filters( 'the_content', $subject ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
-				$regex = '/<cite>.*<\/cite>/s';
+				$regex   = '/<cite>.*<\/cite>/s';
 				preg_match( $regex, $subject, $matches );
 				if ( $matches && $matches[0] ) {
 					$match = $matches[0];

@@ -1,5 +1,10 @@
 # Change Log - Loose
 
+## [1.4.0] - 2024-05-21
+
+### Changed
+- Tested up to 6.5.3 (WordPress version)
+
 ## [1.3.6] - 2022-09-30
 
 ### Fixed

@@ -11,14 +11,15 @@ get_header(); ?>
 	<?php if ( is_category() ) : ?>
 
 		<?php
-			$loose_catmeta = get_term_meta( $cat );
-			$loose_cat_bg_color = ( ! empty( $loose_catmeta['bg_color'][0] ) ) ? '#' . $loose_catmeta['bg_color'][0] : '';
+			$loose_catmeta        = get_term_meta( $cat );
+			$loose_cat_bg_color   = ( ! empty( $loose_catmeta['bg_color'][0] ) ) ? '#' . $loose_catmeta['bg_color'][0] : '';
 			$loose_cat_text_color = ( ! empty( $loose_catmeta['text_color'][0] ) ) ? '#' . $loose_catmeta['text_color'][0] : '';
-			$loose_catimage = ( ! empty( $loose_catmeta['image'][0] ) ) ? $loose_catmeta['image'][0] : '';
-			$loose_catimgsrc = wp_get_attachment_image_src( $loose_catimage, 'full' );
+			$loose_catimage       = ( ! empty( $loose_catmeta['image'][0] ) ) ? $loose_catmeta['image'][0] : '';
+			$loose_catimgsrc      = wp_get_attachment_image_src( $loose_catimage, 'full' );
+			$loose_catimgsrc_url  = ! empty( $loose_catimgsrc[0] ) ? $loose_catimgsrc[0] : '';
 		?>
 		<div class="row archive-loose-page-intro-row">
-		<div class="loose-page-intro col-xs-12" style="<?php echo 'background:' . esc_attr( $loose_cat_bg_color ) . ' url(' . esc_url( $loose_catimgsrc[0] ) . ') no-repeat center;color:' . esc_attr( $loose_cat_text_color ) . ';'; ?>background-size:cover;">
+		<div class="loose-page-intro col-xs-12" style="<?php echo 'background:' . esc_attr( $loose_cat_bg_color ) . ' url(' . esc_url( $loose_catimgsrc_url ) . ') no-repeat center;color:' . esc_attr( $loose_cat_text_color ) . ';'; ?>background-size:cover;">
 			<h1><?php echo esc_html( single_cat_title( '', false ) ); ?></h1>
 			<div class="row">
 			<?php the_archive_description( '<div class="taxonomy-description col-md-8 col-md-offset-2">', '</div>' ); ?>

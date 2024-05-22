@@ -7,12 +7,6 @@ on:
 jobs:
   release-on-push:
     runs-on: ubuntu-20.04
-    env:
-      PHPCS_DIR: /tmp/phpcs
-      WPCS_DIR: /tmp/sniffs/WordPress-Coding-Standards
-      PHPCompatibility: /tmp/sniffs/PHPCompatibility
-      PHPCompatibilityWP: /tmp/sniffs/PHPCompatibilityWP
-      PHPCompatibilityParagonie: /tmp/sniffs/PHPCompatibilityParagonie
     steps:
       - uses: actions/checkout@v2
 
@@ -36,19 +30,18 @@ jobs:
           echo $STYLE_TESTED_UP_TO_WP
           if [ $STYLE_TESTED_UP_TO_WP != $CURRENT_WP_VERSION ]; then echo "style.css - tested up to - use $CURRENT_WP_VERSION instead of $STYLE_TESTED_UP_TO_WP" && exit 1 ;fi
 
-      - name: Codetest - latest PHP
+      - name: Basic Code and Syntax Check - latest PHP
         run: |
-          git clone -b master --depth 1 https://github.com/squizlabs/PHP_CodeSniffer.git $PHPCS_DIR
-          git clone -b master --depth 1 https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git $WPCS_DIR
-          git clone -b master --depth 1 https://github.com/wimg/PHPCompatibility.git $PHPCompatibility
-          git clone -b master --depth 1 https://github.com/PHPCompatibility/PHPCompatibilityWP.git $PHPCompatibilityWP
-          git clone -b master --depth 1 https://github.com/PHPCompatibility/PHPCompatibilityParagonie $PHPCompatibilityParagonie
-          $PHPCS_DIR/bin/phpcs --config-set installed_paths $WPCS_DIR,$PHPCompatibility,$PHPCompatibilityWP,$PHPCompatibilityParagonie
-          $PHPCS_DIR/bin/phpcs -p -s -v -n . --standard=./phpcs.ruleset.xml --extensions=php --ignore=*/node_modules/*,*/vendor/*,class-tgm-plugin-activation.php,class-media-grabber.php,get-the-image.php
+          composer install
           sudo npm install -g jshint
           jshint .
           php -v
           find -L . -name '*.php' -not -path "*node_modules*" -not -path "*vendor*" -not -path "*php-codesniffer*" -not -path ".*" -print0 | xargs -0 -n 1 -P 4 php -l
+      - name: Grant execute permission to phpcs
+        run: chmod +x ./vendor/bin/phpcs
+        
+      - name: WP Coding Standards test - latest PHP
+        run: ./vendor/bin/phpcs -p -s -v -n . --standard=./phpcs.ruleset.xml --extensions=php --ignore=*/node_modules/*,*/vendor/*,class-tgm-plugin-activation.php,class-media-grabber.php,get-the-image.php
           
       - name: Setup PHP 5.6.30
         uses: shivammathur/setup-php@v2

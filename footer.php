@@ -37,7 +37,7 @@
 								?>
 					</nav><!-- #site-navigation -->
 					<div class="left-nav-social">
-						<?php echo loose_social_profiles(); // WPCS: XSS OK. ?>
+						<?php echo loose_social_profiles(); // // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 					</div>
 					<?php get_sidebar( 'left' ); ?>
 					<div class="site-info">

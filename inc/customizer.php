@@ -730,7 +730,6 @@ function loose_customize_register( $wp_customize ) {
 			'type' => 'checkbox',
 		)
 	);
-
 }
 
 add_action( 'customize_register', 'loose_customize_register' );

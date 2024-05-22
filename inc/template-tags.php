@@ -33,7 +33,7 @@ if ( ! function_exists( 'loose_posted_on' ) ) :
 			'<span class="author vcard"><a class="url fn n" href="' . esc_url( get_author_posts_url( get_the_author_meta( 'ID' ) ) ) . '">' . esc_html( get_the_author() ) . '</a></span>'
 		);
 
-		echo '<span class="byline"> ' . $byline . '</span><span class="posted-on"> / ' . $posted_on . '</span>'; // WPCS: XSS OK.
+		echo '<span class="byline"> ' . $byline . '</span><span class="posted-on"> / ' . $posted_on . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 endif;
@@ -51,7 +51,7 @@ if ( ! function_exists( 'loose_entry_footer' ) ) :
 			$tags_list = get_the_tag_list( '', ', ' );
 			if ( $tags_list ) {
 				/* translators: tag list */
-				printf( '<span class="tags-links">' . esc_html__( 'Tagged: %1$s', 'loose' ) . '</span>', $tags_list ); // WPCS: XSS OK.
+				printf( '<span class="tags-links">' . esc_html__( 'Tagged: %1$s', 'loose' ) . '</span>', esc_html( $tags_list ) ); // WPCS: XSS OK.
 			}
 		}
 
@@ -79,10 +79,10 @@ if ( ! function_exists( 'loose_categorized_blog' ) ) :
 			// Create an array of all the categories that are attached to posts.
 			$all_the_cool_cats = get_categories(
 				array(
-					'fields' => 'ids',
+					'fields'     => 'ids',
 					'hide_empty' => 1,
 					// We only need to know if there is more than one category.
-					'number' => 2,
+					'number'     => 2,
 				)
 			);
 
@@ -157,10 +157,10 @@ if ( ! function_exists( 'loose_comment' ) ) :
 						array_merge(
 							$args,
 							array(
-								'depth' => $depth,
-								'max_depth' => $args['max_depth'],
+								'depth'      => $depth,
+								'max_depth'  => $args['max_depth'],
 								'reply_text' => 'REPLY',
-								'before' => ' &#8901; ',
+								'before'     => ' &#8901; ',
 							)
 						)
 					);
@@ -201,10 +201,10 @@ if ( ! function_exists( 'loose_comments_fields' ) ) :
 			$args['format'] = current_theme_supports( 'html5', 'comment-form' ) ? 'html5' : 'xhtml';
 		}
 
-		$req = get_option( 'require_name_email' );
+		$req      = get_option( 'require_name_email' );
 		$aria_req = ( $req ? ' aria-required="true"' : '' );
 		$html_req = ( $req ? ' required="required"' : '' );
-		$html5 = 'html5' === $args['format'];
+		$html5    = 'html5' === $args['format'];
 
 		$fields = array(
 			'author' => '<div class="comment-fields"><p class="comment-form-author"><label for="author">' . esc_html__( 'Name', 'loose' ) . ( $req ? ' <span class="required">*</span>' : '' ) . '</label> ' .
@@ -230,11 +230,11 @@ if ( ! function_exists( 'loose_comments_fields' ) ) :
 	 * @return      string
 	 */
 function loose_get_excerpt_by_id( $post_id ) {
-	$the_post = get_post( $post_id ); // Gets post ID.
-	$the_excerpt = $the_post->post_content; // Gets post_content to be used as a basis for the excerpt.
+	$the_post       = get_post( $post_id ); // Gets post ID.
+	$the_excerpt    = $the_post->post_content; // Gets post_content to be used as a basis for the excerpt.
 	$excerpt_length = 35; // Sets excerpt length by word count.
-	$the_excerpt = strip_tags( strip_shortcodes( $the_excerpt ) ); // Strips tags and images.
-	$words = explode( ' ', $the_excerpt, $excerpt_length + 1 );
+	$the_excerpt    = strip_tags( strip_shortcodes( $the_excerpt ) ); // Strips tags and images.
+	$words          = explode( ' ', $the_excerpt, $excerpt_length + 1 );
 
 	if ( count( $words ) > $excerpt_length ) :
 		array_pop( $words );
@@ -296,14 +296,14 @@ if ( ! function_exists( 'loose_gallery_content' ) ) :
 	 */
 	function loose_gallery_content() {
 		/* translators: post title */
-		$content = get_the_content( sprintf( __( 'Read more %s <span class="meta-nav">&rarr;</span>', 'loose' ), the_title( '<span class="screen-reader-text">"', '"</span>', false ) ) );
-		$pattern = '#\[gallery[^\]]*\]#';
+		$content     = get_the_content( sprintf( __( 'Read more %s <span class="meta-nav">&rarr;</span>', 'loose' ), the_title( '<span class="screen-reader-text">"', '"</span>', false ) ) );
+		$pattern     = '#\[gallery[^\]]*\]#';
 		$replacement = '';
 
 		$newcontent = preg_replace( $pattern, $replacement, $content, 1 );
-		$newcontent = apply_filters( 'the_content', $newcontent ); // WPCS: prefix ok.
+		$newcontent = apply_filters( 'the_content', $newcontent ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$newcontent = str_replace( ']]>', ']]&gt;', $newcontent );
-		echo $newcontent; // WPCS: XSS OK.
+		echo $newcontent; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
 	endif;
@@ -318,7 +318,7 @@ if ( ! function_exists( 'loose_media_content' ) ) :
 	function loose_media_content() {
 		/* translators: post title */
 		$content = get_the_content( sprintf( esc_html__( 'Read more %s <span class="meta-nav">&rarr;</span>', 'loose' ), the_title( '<span class="screen-reader-text">"', '"</span>', false ) ) );
-		$content = apply_filters( 'the_content', $content ); // WPCS: prefix ok.
+		$content = apply_filters( 'the_content', $content ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		$content = str_replace( ']]>', ']]&gt;', $content );
 
 		$tags = 'audio|video|object|embed|iframe';
@@ -327,32 +327,9 @@ if ( ! function_exists( 'loose_media_content' ) ) :
 
 		$newcontent = preg_replace( '#<(?P<tag>' . $tags . ')[^<]*?(?:>[\s\S]*?<\/(?P=tag)>|\s*\/>)#', $replacement, $content, 1 );
 
-		echo $newcontent; // WPCS: XSS OK.
+		echo $newcontent; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 	}
 
-	endif;
-
-if ( ! function_exists( 'loose_gallery_shortcode' ) ) :
-
-	/**
-	 * Custom gallery shortcode output.
-	 *
-	 * @param type  $output gellery shortcode output.
-	 * @param array $atts gellery shortcode atts.
-	 * @param type  $instance gellery shortcode instance.
-	 * @return type
-	 */
-	function loose_gallery_shortcode( $output = '', $atts, $instance ) {
-		$return = $output; // Fallback.
-
-		$atts = array(
-			'size' => 'medium',
-		);
-
-		return $output;
-	}
-
-	add_filter( 'post_gallery', 'loose_gallery_shortcode', 10, 3 );
 	endif;
 
 if ( ! function_exists( 'loose_post_format_icon' ) ) :
@@ -374,20 +351,18 @@ if ( ! function_exists( 'loose_post_format_icon' ) ) :
 		if ( ! $format ) {
 
 			return;
-		} else {
-			if ( 'audio' === $format ) {
-				return '<div class="loose-post-format-icon"><svg viewBox="0 0 24 24"><path d="M17.297 12h1.688q0 2.531-1.758 4.43t-4.242 2.273v3.281h-1.969v-3.281q-2.484-0.375-4.242-2.273t-1.758-4.43h1.688q0 2.203 1.57 3.656t3.727 1.453 3.727-1.453 1.57-3.656zM12 15q-1.219 0-2.109-0.891t-0.891-2.109v-6q0-1.219 0.891-2.109t2.109-0.891 2.109 0.891 0.891 2.109v6q0 1.219-0.891 2.109t-2.109 0.891z"></path></svg></div>';
-			} elseif ( 'video' === $format ) {
-				return '<div class="loose-post-format-icon"><svg viewBox="0 0 18 18"><path d="M0 2.25v13.5h18v-13.5h-18zM3.375 14.625h-2.25v-2.25h2.25v2.25zM3.375 10.125h-2.25v-2.25h2.25v2.25zM3.375 5.625h-2.25v-2.25h2.25v2.25zM13.5 14.625h-9v-11.25h9v11.25zM16.875 14.625h-2.25v-2.25h2.25v2.25zM16.875 10.125h-2.25v-2.25h2.25v2.25zM16.875 5.625h-2.25v-2.25h2.25v2.25zM6.75 5.625v6.75l4.5-3.375z"></path></svg></div>';
-			} elseif ( 'gallery' === $format ) {
-				return '<div class="loose-post-format-icon"><svg viewBox="0 0 18 18"><path d="M5.344 10.688c0 2.019 1.637 3.656 3.656 3.656s3.656-1.637 3.656-3.656-1.637-3.656-3.656-3.656-3.656 1.637-3.656 3.656zM16.875 4.5h-3.938c-0.281-1.125-0.563-2.25-1.688-2.25h-4.5c-1.125 0-1.406 1.125-1.688 2.25h-3.938c-0.619 0-1.125 0.506-1.125 1.125v10.125c0 0.619 0.506 1.125 1.125 1.125h15.75c0.619 0 1.125-0.506 1.125-1.125v-10.125c0-0.619-0.506-1.125-1.125-1.125zM9 15.68c-2.757 0-4.992-2.235-4.992-4.992s2.235-4.992 4.992-4.992c2.757 0 4.992 2.235 4.992 4.992s-2.235 4.992-4.992 4.992zM16.875 7.875h-2.25v-1.125h2.25v1.125z"></path></svg></div>';
-			} elseif ( 'image' === $format ) {
-				return '<div class="loose-post-format-icon"><svg viewBox="0 0 18 18"><path d="M16.873 2.25c0.001 0.001 0.001 0.001 0.002 0.002v13.496c-0.001 0.001-0.001 0.001-0.002 0.002h-15.746c-0.001-0.001-0.001-0.001-0.002-0.002v-13.496c0.001-0.001 0.001-0.001 0.002-0.002h15.746zM16.875 1.125h-15.75c-0.619 0-1.125 0.506-1.125 1.125v13.5c0 0.619 0.506 1.125 1.125 1.125h15.75c0.619 0 1.125-0.506 1.125-1.125v-13.5c0-0.619-0.506-1.125-1.125-1.125v0z"></path><path d="M14.625 5.063c0 0.932-0.756 1.688-1.688 1.688s-1.688-0.756-1.688-1.688 0.756-1.688 1.688-1.688 1.688 0.756 1.688 1.688z"></path><path d="M15.75 14.625h-13.5v-2.25l3.938-6.75 4.5 5.625h1.125l3.938-3.375z"></path></svg></div>';
-			} elseif ( 'link' === $format ) {
-				return '<div class="loose-post-format-icon"><svg viewBox="0 0 18 18"><path d="M7.739 11.176c-0.234 0-0.468-0.089-0.646-0.268-1.672-1.672-1.672-4.393 0-6.066l3.375-3.375c0.81-0.81 1.887-1.256 3.033-1.256s2.223 0.446 3.033 1.256c1.672 1.672 1.672 4.393 0 6.066l-1.543 1.543c-0.357 0.357-0.936 0.357-1.293 0s-0.357-0.936 0-1.293l1.543-1.543c0.959-0.96 0.959-2.521 0-3.48-0.465-0.465-1.083-0.721-1.74-0.721s-1.275 0.256-1.74 0.721l-3.375 3.375c-0.96 0.96-0.96 2.521 0 3.48 0.357 0.357 0.357 0.936 0 1.293-0.178 0.178-0.412 0.268-0.646 0.268z"></path><path d="M4.5 17.789c-1.146 0-2.223-0.446-3.033-1.256-1.672-1.672-1.672-4.393 0-6.066l1.543-1.543c0.357-0.357 0.936-0.357 1.293 0s0.357 0.936 0 1.293l-1.543 1.543c-0.96 0.96-0.96 2.521 0 3.48 0.465 0.465 1.083 0.721 1.74 0.721s1.275-0.256 1.74-0.721l3.375-3.375c0.959-0.96 0.959-2.521 0-3.48-0.357-0.357-0.357-0.936 0-1.293s0.936-0.357 1.293 0c1.672 1.672 1.672 4.393 0 6.066l-3.375 3.375c-0.81 0.81-1.887 1.256-3.033 1.256z"></path></svg></div>';
-			} elseif ( 'quote' === $format ) {
-				return '<div class="loose-post-format-icon"><svg viewBox="0 0 18 18"><path d="M14.063 11.25c-2.175 0-3.938-1.763-3.938-3.938s1.763-3.938 3.938-3.938 3.938 1.763 3.938 3.938l0.018 0.563c0 4.349-3.526 7.875-7.875 7.875v-2.25c1.502 0 2.915-0.585 3.977-1.648 0.205-0.205 0.391-0.422 0.56-0.651-0.201 0.032-0.407 0.048-0.617 0.048zM3.938 11.25c-2.175 0-3.938-1.763-3.938-3.938s1.763-3.938 3.938-3.938 3.938 1.763 3.938 3.938l0.018 0.563c0 4.349-3.526 7.875-7.875 7.875v-2.25c1.502 0 2.915-0.585 3.977-1.648 0.205-0.205 0.391-0.422 0.56-0.651-0.201 0.032-0.407 0.048-0.617 0.048z"></path></svg></div>';
-			}
+		} elseif ( 'audio' === $format ) {
+			return '<div class="loose-post-format-icon"><svg viewBox="0 0 24 24"><path d="M17.297 12h1.688q0 2.531-1.758 4.43t-4.242 2.273v3.281h-1.969v-3.281q-2.484-0.375-4.242-2.273t-1.758-4.43h1.688q0 2.203 1.57 3.656t3.727 1.453 3.727-1.453 1.57-3.656zM12 15q-1.219 0-2.109-0.891t-0.891-2.109v-6q0-1.219 0.891-2.109t2.109-0.891 2.109 0.891 0.891 2.109v6q0 1.219-0.891 2.109t-2.109 0.891z"></path></svg></div>';
+		} elseif ( 'video' === $format ) {
+			return '<div class="loose-post-format-icon"><svg viewBox="0 0 18 18"><path d="M0 2.25v13.5h18v-13.5h-18zM3.375 14.625h-2.25v-2.25h2.25v2.25zM3.375 10.125h-2.25v-2.25h2.25v2.25zM3.375 5.625h-2.25v-2.25h2.25v2.25zM13.5 14.625h-9v-11.25h9v11.25zM16.875 14.625h-2.25v-2.25h2.25v2.25zM16.875 10.125h-2.25v-2.25h2.25v2.25zM16.875 5.625h-2.25v-2.25h2.25v2.25zM6.75 5.625v6.75l4.5-3.375z"></path></svg></div>';
+		} elseif ( 'gallery' === $format ) {
+			return '<div class="loose-post-format-icon"><svg viewBox="0 0 18 18"><path d="M5.344 10.688c0 2.019 1.637 3.656 3.656 3.656s3.656-1.637 3.656-3.656-1.637-3.656-3.656-3.656-3.656 1.637-3.656 3.656zM16.875 4.5h-3.938c-0.281-1.125-0.563-2.25-1.688-2.25h-4.5c-1.125 0-1.406 1.125-1.688 2.25h-3.938c-0.619 0-1.125 0.506-1.125 1.125v10.125c0 0.619 0.506 1.125 1.125 1.125h15.75c0.619 0 1.125-0.506 1.125-1.125v-10.125c0-0.619-0.506-1.125-1.125-1.125zM9 15.68c-2.757 0-4.992-2.235-4.992-4.992s2.235-4.992 4.992-4.992c2.757 0 4.992 2.235 4.992 4.992s-2.235 4.992-4.992 4.992zM16.875 7.875h-2.25v-1.125h2.25v1.125z"></path></svg></div>';
+		} elseif ( 'image' === $format ) {
+			return '<div class="loose-post-format-icon"><svg viewBox="0 0 18 18"><path d="M16.873 2.25c0.001 0.001 0.001 0.001 0.002 0.002v13.496c-0.001 0.001-0.001 0.001-0.002 0.002h-15.746c-0.001-0.001-0.001-0.001-0.002-0.002v-13.496c0.001-0.001 0.001-0.001 0.002-0.002h15.746zM16.875 1.125h-15.75c-0.619 0-1.125 0.506-1.125 1.125v13.5c0 0.619 0.506 1.125 1.125 1.125h15.75c0.619 0 1.125-0.506 1.125-1.125v-13.5c0-0.619-0.506-1.125-1.125-1.125v0z"></path><path d="M14.625 5.063c0 0.932-0.756 1.688-1.688 1.688s-1.688-0.756-1.688-1.688 0.756-1.688 1.688-1.688 1.688 0.756 1.688 1.688z"></path><path d="M15.75 14.625h-13.5v-2.25l3.938-6.75 4.5 5.625h1.125l3.938-3.375z"></path></svg></div>';
+		} elseif ( 'link' === $format ) {
+			return '<div class="loose-post-format-icon"><svg viewBox="0 0 18 18"><path d="M7.739 11.176c-0.234 0-0.468-0.089-0.646-0.268-1.672-1.672-1.672-4.393 0-6.066l3.375-3.375c0.81-0.81 1.887-1.256 3.033-1.256s2.223 0.446 3.033 1.256c1.672 1.672 1.672 4.393 0 6.066l-1.543 1.543c-0.357 0.357-0.936 0.357-1.293 0s-0.357-0.936 0-1.293l1.543-1.543c0.959-0.96 0.959-2.521 0-3.48-0.465-0.465-1.083-0.721-1.74-0.721s-1.275 0.256-1.74 0.721l-3.375 3.375c-0.96 0.96-0.96 2.521 0 3.48 0.357 0.357 0.357 0.936 0 1.293-0.178 0.178-0.412 0.268-0.646 0.268z"></path><path d="M4.5 17.789c-1.146 0-2.223-0.446-3.033-1.256-1.672-1.672-1.672-4.393 0-6.066l1.543-1.543c0.357-0.357 0.936-0.357 1.293 0s0.357 0.936 0 1.293l-1.543 1.543c-0.96 0.96-0.96 2.521 0 3.48 0.465 0.465 1.083 0.721 1.74 0.721s1.275-0.256 1.74-0.721l3.375-3.375c0.959-0.96 0.959-2.521 0-3.48-0.357-0.357-0.357-0.936 0-1.293s0.936-0.357 1.293 0c1.672 1.672 1.672 4.393 0 6.066l-3.375 3.375c-0.81 0.81-1.887 1.256-3.033 1.256z"></path></svg></div>';
+		} elseif ( 'quote' === $format ) {
+			return '<div class="loose-post-format-icon"><svg viewBox="0 0 18 18"><path d="M14.063 11.25c-2.175 0-3.938-1.763-3.938-3.938s1.763-3.938 3.938-3.938 3.938 1.763 3.938 3.938l0.018 0.563c0 4.349-3.526 7.875-7.875 7.875v-2.25c1.502 0 2.915-0.585 3.977-1.648 0.205-0.205 0.391-0.422 0.56-0.651-0.201 0.032-0.407 0.048-0.617 0.048zM3.938 11.25c-2.175 0-3.938-1.763-3.938-3.938s1.763-3.938 3.938-3.938 3.938 1.763 3.938 3.938l0.018 0.563c0 4.349-3.526 7.875-7.875 7.875v-2.25c1.502 0 2.915-0.585 3.977-1.648 0.205-0.205 0.391-0.422 0.56-0.651-0.201 0.032-0.407 0.048-0.617 0.048z"></path></svg></div>';
 		}
 	}
 
@@ -403,9 +378,9 @@ if ( ! function_exists( 'loose_customize_css' ) ) :
 	 */
 	function loose_customize_css() {
 		$hide_title_on_home_archive = get_theme_mod( 'hide_title_on_home_archive', 0 );
-		$hide_meta_on_home_archive = get_theme_mod( 'hide_meta_on_home_archive', 0 );
+		$hide_meta_on_home_archive  = get_theme_mod( 'hide_meta_on_home_archive', 0 );
 
-		$custom_css = '.site-branding { background-color:' . esc_attr( get_theme_mod( 'header_bg_color', '#f5f8fa' ) ) . ';}';
+		$custom_css  = '.site-branding { background-color:' . esc_attr( get_theme_mod( 'header_bg_color', '#f5f8fa' ) ) . ';}';
 		$custom_css .= '.loose-featured-slider, .loose-featured-slider .featured-image, .loose-featured-slider .no-featured-image {height:' . ( absint( get_theme_mod( 'home_page_slider_height', 500 ) ) * 0.6 ) . 'px;}';
 		$custom_css .= '.loose-home-intro, .loose-home-intro span, .widget-title span {background-color: #' . esc_attr( get_theme_mod( 'background_color', 'ffffff' ) ) . ';}';
 		$custom_css .= '#secondary .widget:nth-of-type(3n+1){background-color:' . esc_attr( get_theme_mod( 'sidebar_bg_color_1', '#f1f0ec' ) ) . ';}';
@@ -506,8 +481,8 @@ if ( ! function_exists( 'loose_submenu_span' ) ) :
 	 */
 	function loose_submenu_span( $item_output, $item, $depth, $args ) {
 
-		$needle1 = 'menu-item-has-children';
-		$needle2 = 'page_item_has_children';
+		$needle1  = 'menu-item-has-children';
+		$needle2  = 'page_item_has_children';
 		$haystack = $item->classes;
 		if ( in_array( $needle1, $haystack ) || in_array( $needle2, $haystack ) ) {
 			$item_output = $item_output . '<span class="expand-submenu" title="' . esc_html__( 'Expand', 'loose' ) . '">&#43;</span>';
@@ -533,12 +508,12 @@ if ( ! function_exists( 'loose_social_profiles' ) ) :
 
 		$output = '';
 
-		$loose_social_icons_twitter = get_theme_mod( 'social_icons_twitter' );
-		$loose_social_icons_facebook = get_theme_mod( 'social_icons_facebook' );
+		$loose_social_icons_twitter    = get_theme_mod( 'social_icons_twitter' );
+		$loose_social_icons_facebook   = get_theme_mod( 'social_icons_facebook' );
 		$loose_social_icons_googleplus = get_theme_mod( 'social_icons_googleplus' );
-		$loose_social_icons_instagram = get_theme_mod( 'social_icons_instagram' );
-		$loose_social_icons_pinterest = get_theme_mod( 'social_icons_pinterest' );
-		$loose_social_icons_youtube = get_theme_mod( 'social_icons_youtube' );
+		$loose_social_icons_instagram  = get_theme_mod( 'social_icons_instagram' );
+		$loose_social_icons_pinterest  = get_theme_mod( 'social_icons_pinterest' );
+		$loose_social_icons_youtube    = get_theme_mod( 'social_icons_youtube' );
 
 		if ( ! empty( $loose_social_icons_twitter ) ) {
 			$output .= '<a href="' . esc_url( $loose_social_icons_twitter ) . '" title="' . esc_html__( 'Twitter', 'loose' ) . '"><span class="screen-reader-text">' . esc_html__( 'Twitter', 'loose' ) . '</span><svg viewBox="0 0 26 28"><path d="M25.312 6.375q-1.047 1.531-2.531 2.609 0.016 0.219 0.016 0.656 0 2.031-0.594 4.055t-1.805 3.883-2.883 3.289-4.031 2.281-5.047 0.852q-4.234 0-7.75-2.266 0.547 0.063 1.219 0.063 3.516 0 6.266-2.156-1.641-0.031-2.938-1.008t-1.781-2.492q0.516 0.078 0.953 0.078 0.672 0 1.328-0.172-1.75-0.359-2.898-1.742t-1.148-3.211v-0.063q1.062 0.594 2.281 0.641-1.031-0.688-1.641-1.797t-0.609-2.406q0-1.375 0.688-2.547 1.891 2.328 4.602 3.727t5.805 1.555q-0.125-0.594-0.125-1.156 0-2.094 1.477-3.57t3.57-1.477q2.188 0 3.687 1.594 1.703-0.328 3.203-1.219-0.578 1.797-2.219 2.781 1.453-0.156 2.906-0.781z"></path></svg></a>';
@@ -621,18 +596,16 @@ if ( ! function_exists( 'loose_the_content' ) ) :
 				the_content();
 			} else {
 				$content = get_the_content( __( 'Continue reading &rarr;', 'loose' ) );
-				$content = apply_filters( 'the_content', $content ); // WPCS: prefix ok.
+				$content = apply_filters( 'the_content', $content ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 				$content = str_replace( ']]>', ']]&gt;', $content );
-				$regex = '/<cite>.*<\/cite>/s';
+				$regex   = '/<cite>.*<\/cite>/s';
 				$content = preg_replace( $regex, '', $content );
-				echo '<a href="' . get_permalink() . '">' . $content . '</a>'; // WPCS: XSS OK.
+				echo '<a href="' . get_permalink() . '">' . $content . '</a>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
-		} else {
-			if ( 'content' === get_theme_mod( 'show_content_or_excerpt', 'title' ) ) {
-				the_content( __( 'Continue reading &rarr;', 'loose' ) );
-			} elseif ( 'excerpt' === get_theme_mod( 'show_content_or_excerpt', 'title' ) ) {
-				the_excerpt();
-			}
+		} elseif ( 'content' === get_theme_mod( 'show_content_or_excerpt', 'title' ) ) {
+			the_content( __( 'Continue reading &rarr;', 'loose' ) );
+		} elseif ( 'excerpt' === get_theme_mod( 'show_content_or_excerpt', 'title' ) ) {
+			the_excerpt();
 		}
 	}
 	endif;
@@ -651,8 +624,8 @@ if ( ! function_exists( 'loose_entry_meta' ) ) :
 			if ( ! is_single() && has_post_format( 'link' ) ) {
 				// Extracting link from the content.
 				$subject = get_the_content();
-				$subject = apply_filters( 'the_content', $subject ); // WPCS: prefix ok.
-				$regex = '#<a\s+(?:[^>]*?\s+)?href=[\"\'](.*?)[\"\']#';
+				$subject = apply_filters( 'the_content', $subject ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+				$regex   = '#<a\s+(?:[^>]*?\s+)?href=[\"\'](.*?)[\"\']#';
 				preg_match( $regex, $subject, $matches );
 				if ( ! empty( $matches[1] ) ) {
 					$match = $matches[1];
@@ -660,8 +633,8 @@ if ( ! function_exists( 'loose_entry_meta' ) ) :
 				}
 			} elseif ( ! is_single() && has_post_format( 'quote' ) ) {
 				$subject = get_the_content();
-				$subject = apply_filters( 'the_content', $subject ); // WPCS: prefix ok.
-				$regex = '/<cite>.*<\/cite>/s';
+				$subject = apply_filters( 'the_content', $subject ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
+				$regex   = '/<cite>.*<\/cite>/s';
 				preg_match( $regex, $subject, $matches );
 				if ( $matches && $matches[0] ) {
 					$match = $matches[0];

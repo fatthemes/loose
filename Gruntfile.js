@@ -3,21 +3,6 @@ module.exports = function (grunt) {
     // Project configuration.
     grunt.initConfig({
         //pkg: grunt.file.readJSON('package.json'),
-        sass: {
-			dist: {
-				files: {
-					'style.css' : 'scss/underscores/style.scss'
-				}
-			}
-		},
-
-		watch: {
-			css: {
-				files: 'scss/**/*.scss',
-				tasks: ['sass']
-			}
-		},
-
         addtextdomain: {
             options: {
                 //i18nToolsPath: '/home/patryk/public_html/wpdev/trunk/tools/i18n', // Path to the i18n tools directory.

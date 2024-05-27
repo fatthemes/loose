@@ -51,7 +51,7 @@ if ( ! function_exists( 'loose_entry_footer' ) ) :
 			$tags_list = get_the_tag_list( '', ', ' );
 			if ( $tags_list ) {
 				/* translators: tag list */
-				printf( '<span class="tags-links">' . esc_html__( 'Tagged: %1$s', 'loose' ) . '</span>', esc_html( $tags_list ) ); // WPCS: XSS OK.
+				printf( '<span class="tags-links">' . esc_html__( 'Tagged: %1$s', 'loose' ) . '</span>', $tags_list ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 		}
 

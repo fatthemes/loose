@@ -1,5 +1,10 @@
 # Change Log - Loose
 
+## [1.4.1] - 2024-05-27
+
+### Fixed
+- Tags html escaped
+
 ## [1.4.0] - 2024-05-21
 
 ### Changed

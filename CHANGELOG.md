@@ -1,5 +1,10 @@
 # Change Log - Loose
 
+## [1.4.2] - 2024-08-05
+ - Added Block Editor support
+ - Fixed default style for block buttons
+ - Tested up to 6.6.1 (WordPress version)
+
 ## [1.4.1] - 2024-05-27
 
 ### Fixed

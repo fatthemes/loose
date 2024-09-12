@@ -400,7 +400,7 @@ if ( ! function_exists( 'loose_customize_css' ) ) :
 		$custom_css .= '.menu-logo {float:left;}';
 		$custom_css .= '.navbar-navigation ul, .nav-social {display:block;}';
 		$custom_css .= '.loose-featured-slider, .loose-featured-slider .featured-image, .loose-featured-slider .no-featured-image {height:' . absint( get_theme_mod( 'home_page_slider_height', 500 ) ) . 'px;}';
-		// $custom_css .= '.entry-content a {color:' . esc_attr( get_theme_mod( 'content_link_color', '#000' ) ) . ';}';
+		$custom_css .= '.entry-content a {color:' . esc_attr( get_theme_mod( 'content_link_color', '#000' ) ) . ';}';
 
 		wp_add_inline_style( 'loose-style', $custom_css );
 	}

@@ -1,4 +1,6 @@
 # Change Log - Loose
+## [1.4.3] - 2024-09-13
+- Removed `theme.json` to resolve conflicts with block editor styles.
 
 ## [1.4.2] - 2024-09-12
  - Added Block Editor support

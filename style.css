@@ -1996,7 +1996,7 @@ h1 a, .site-title a, h2 a, h3 a, h4 a, h5 a, h6 a, .entry-meta .byline a, .entry
 }
 
 .navbar-navigation ul .menu-item-has-children,
-.navbar-navigation ul .page-item-has-children {
+.navbar-navigation ul .page_item_has_children {
   position: relative;
 }
 

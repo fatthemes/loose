@@ -72,8 +72,9 @@
 						wp_nav_menu(
 							array(
 								'theme_location' => 'top',
-								'menu_id' => 'top-menu',
-								'depth' => 2,
+								'menu_id'        => 'top-menu',
+								'depth'          => 2,
+								'fallback_cb'    => 'loose_menu_fallback',
 							)
 						);
 						?>

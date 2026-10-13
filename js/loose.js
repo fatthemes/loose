@@ -210,8 +210,8 @@
 
 	    var $current = $( this ).parent().children( 'ul' );
 	    if ( $current.hasClass( 'item-visible' ) ) {
-		$current.css( { 'left': '-999em' } ).removeClass( 'item-visible' );
-		$( this ).css( { 'transform': 'none' } ).parent().children( 'ul' ).hide();
+		$current.css( { 'left': '', 'display': '' } ).removeClass( 'item-visible' );
+		$( this ).css( { 'transform': 'none' } );
 	    } else {
 		$current.css( { 'left': 'auto' } ).addClass( 'item-visible' );
 		$( this ).css( { 'transform': 'rotate(45deg)' } ).parent().children( 'ul' ).show();

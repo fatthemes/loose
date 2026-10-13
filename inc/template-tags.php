@@ -399,7 +399,9 @@ if ( ! function_exists( 'loose_customize_css' ) ) :
 		$custom_css .= '@media screen and (min-width: ' . absint( get_theme_mod( 'show_top_menu_width', 768 ) ) . 'px )  {';
 		$custom_css .= '.menu-logo {float:left;}';
 		$custom_css .= '.navbar-navigation ul, .nav-social {display:block;}';
+		$custom_css .= '.navbar-navigation ul li:hover > ul, .navbar-navigation ul li:focus-within > ul {left:auto;}';
 		$custom_css .= '.loose-featured-slider, .loose-featured-slider .featured-image, .loose-featured-slider .no-featured-image {height:' . absint( get_theme_mod( 'home_page_slider_height', 500 ) ) . 'px;}';
+		$custom_css .= '}';
 		$custom_css .= '.entry-content a {color:' . esc_attr( get_theme_mod( 'content_link_color', '#000' ) ) . ';}';
 
 		wp_add_inline_style( 'loose-style', $custom_css );
@@ -493,6 +495,136 @@ if ( ! function_exists( 'loose_submenu_span' ) ) :
 
 	add_filter( 'walker_nav_menu_start_el', 'loose_submenu_span', 10, 4 );
 
+
+	endif;
+
+
+if ( ! function_exists( 'loose_menu_fallback_classes' ) ) :
+
+	/**
+	 * Renames page list classes to their nav menu equivalents.
+	 *
+	 * Only hooked while loose_menu_fallback() runs.
+	 *
+	 * @param array   $css_class Classes of the page list item.
+	 * @param WP_Post $page      Page data object.
+	 * @param int     $depth     Depth of page.
+	 * @param array   $args      Arguments of wp_list_pages().
+	 * @return array
+	 */
+	function loose_menu_fallback_classes( $css_class, $page, $depth, $args ) {
+		
+		if ( ! empty( $args['depth'] ) && $depth + 1 >= $args['depth'] ) {
+			$css_class = array_diff( $css_class, array( 'page_item_has_children' ) );
+		}
+
+		$map = array(
+			'page_item'              => 'menu-item',
+			'page_item_has_children' => 'menu-item-has-children',
+			'current_page_item'      => 'current-menu-item',
+			'current_page_ancestor'  => 'current-menu-ancestor',
+			'current_page_parent'    => 'current-menu-parent',
+		);
+
+		foreach ( $css_class as $key => $class ) {
+			if ( isset( $map[ $class ] ) ) {
+				$css_class[ $key ] = $map[ $class ];
+			}
+		}
+
+		return $css_class;
+	}
+
+	endif;
+
+
+if ( ! function_exists( 'loose_menu_fallback' ) ) :
+
+	/**
+	 * Displays a short list of pages when no menu is assigned to a menu location.
+	 *
+	 * @param array $args Arguments passed from wp_nav_menu().
+	 * @return string|void Menu markup when $args['echo'] is false.
+	 */
+	function loose_menu_fallback( $args = array() ) {
+		$args = wp_parse_args(
+			$args,
+			array(
+				'container'       => 'div',
+				'container_class' => '',
+				'container_id'    => '',
+				'menu_id'         => '',
+				'menu_class'      => 'menu',
+				'items_wrap'      => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+				'depth'           => 0,
+				'echo'            => true,
+				'theme_location'  => '',
+			)
+		);
+
+		$defaults = array(
+			'number' => 4,
+			'depth'  => 2,
+		);
+
+		/**
+		 * Filters how many top-level pages and levels the menu fallback shows.
+		 *
+		 * @param array  $fallback_args  
+		 * @param string $theme_location 
+		 */
+		$fallback_args = wp_parse_args( apply_filters( 'loose_menu_fallback_args', $defaults, $args['theme_location'] ), $defaults );
+
+		// Never show more levels than the wp_nav_menu() call allows.
+		$depth = absint( $fallback_args['depth'] );
+		if ( absint( $args['depth'] ) > 0 && ( 0 === $depth || absint( $args['depth'] ) < $depth ) ) {
+			$depth = absint( $args['depth'] );
+		}
+
+		$sort_column  = 'menu_order,post_title';
+		$exclude_tree = array();
+		if ( absint( $fallback_args['number'] ) > 0 ) {
+			$top_level    = get_pages(
+				array(
+					'parent'       => 0,
+					'hierarchical' => 0,
+					'sort_column'  => $sort_column,
+				)
+			);
+			$exclude_tree = array_slice( wp_list_pluck( $top_level, 'ID' ), absint( $fallback_args['number'] ) );
+		}
+
+		add_filter( 'page_css_class', 'loose_menu_fallback_classes', 10, 4 );
+		$items = wp_list_pages(
+			array(
+				'title_li'     => '',
+				'echo'         => false,
+				'depth'        => $depth,
+				'sort_column'  => $sort_column,
+				'exclude_tree' => implode( ',', $exclude_tree ),
+				'walker'       => new Loose_Walker_Menu_Fallback(),
+			)
+		);
+		remove_filter( 'page_css_class', 'loose_menu_fallback_classes', 10 );
+
+		if ( empty( $items ) ) {
+			return;
+		}
+
+		$menu = sprintf( $args['items_wrap'], esc_attr( $args['menu_id'] ), esc_attr( $args['menu_class'] ), $items );
+
+		if ( in_array( $args['container'], array( 'div', 'nav' ), true ) ) {
+			$container_id    = $args['container_id'] ? ' id="' . esc_attr( $args['container_id'] ) . '"' : '';
+			$container_class = $args['container_class'] ? $args['container_class'] : 'menu-fallback-container';
+			$menu            = '<' . $args['container'] . $container_id . ' class="' . esc_attr( $container_class ) . '">' . $menu . '</' . $args['container'] . '>';
+		}
+
+		if ( $args['echo'] ) {
+			echo wp_kses_post( $menu );
+		} else {
+			return $menu;
+		}
+	}
 
 	endif;
 

@@ -294,6 +294,11 @@ add_action( 'wp_enqueue_scripts', 'loose_scripts' );
 require get_template_directory() . '/inc/template-tags.php';
 
 /**
+ * Page walker for the menu fallback.
+ */
+require get_template_directory() . '/inc/class-loose-walker-menu-fallback.php';
+
+/**
  * Hybrid Media Grabber for getting media from posts.
  */
 require get_template_directory() . '/inc/class-media-grabber.php';

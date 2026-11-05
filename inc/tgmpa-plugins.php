@@ -60,6 +60,13 @@ function loose_register_required_plugins() {
 			'slug'      => 'amp',
 			'required'  => false,
 		),
+
+		// WooCommerce from WordPress Plugin Repository.
+		array(
+			'name'      => esc_html__( 'WooCommerce', 'loose' ),
+			'slug'      => 'woocommerce',
+			'required'  => false,
+		),
 	);
 
 	/**

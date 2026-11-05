@@ -83,7 +83,8 @@
 
 // Single Image
 	    $( 'a[href*=".jpg"], a[href*=".jpeg"], a[href*=".png"], a[href*=".gif"]' ).each( function () {
-		if ( $( this ).parents( '.gallery' ).length === 0 ) {
+		// WooCommerce opens product gallery images in its own lightbox.
+		if ( $( this ).parents( '.gallery' ).length === 0 && $( this ).parents( '.woocommerce-product-gallery' ).length === 0 ) {
 		    $( this ).magnificPopup( {
 			type: 'image',
 			image: {

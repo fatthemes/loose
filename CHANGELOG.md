@@ -4,6 +4,11 @@
 
 - Fixed dropdown menus not opening on hover or keyboard focus
 - Fixed header styling when no menu is assigned
+- Added WooCommerce support: shop, product, cart, checkout and My Account pages styled to match Loose
+- Added a header cart link with an item count, shown when WooCommerce is active
+- Added a Shop Sidebar widget area, shown left of the products (above them on small screens), and shop options (Customizer → WooCommerce (Loose))
+- Added WooCommerce to the recommended plugins
+- Sites already using WooCommerce will see their shop restyled
 
 ## [1.4.3] - 2024-09-13
 

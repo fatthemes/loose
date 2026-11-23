@@ -63,6 +63,27 @@ function loose_woocommerce_scripts() {
 add_action( 'wp_enqueue_scripts', 'loose_woocommerce_scripts', 20 );
 
 /**
+ * Shows the cart, checkout and account pages without the blog sidebar, using the No Sidebar template.
+ *
+ * Only replaces the default page template, so a template chosen in the editor still applies.
+ *
+ * @param string $template Path of the template to include.
+ * @return string
+ */
+function loose_woocommerce_template_include( $template ) {
+	if ( ( is_cart() || is_checkout() || is_account_page() ) && locate_template( 'page.php' ) === $template ) {
+		$no_sidebar = locate_template( 'template-nosidebar.php' );
+
+		if ( $no_sidebar ) {
+			return $no_sidebar;
+		}
+	}
+
+	return $template;
+}
+add_filter( 'template_include', 'loose_woocommerce_template_include', 20 );
+
+/**
  * Gives text links in product descriptions the Customizer content link colour.
  */
 function loose_woocommerce_inline_css() {

@@ -4611,6 +4611,16 @@ p.no-comments {
   font-size: 1rem;
 }
 
+/* Cart, checkout and account pages fill the content and sidebar width instead of the No Sidebar template's centred column. */
+@media (min-width: 48em) {
+  .woocommerce-cart #primary.content-area,
+  .woocommerce-checkout #primary.content-area,
+  .woocommerce-account #primary.content-area {
+    width: 100%;
+    margin-left: 0;
+  }
+}
+
 /* Block cart and checkout. */
 .woocommerce-page .wc-block-cart__totals-title,
 .woocommerce-page .wc-block-components-checkout-step__title,
@@ -4681,6 +4691,44 @@ p.no-comments {
 .woocommerce-page .wc-block-components-checkbox .wc-block-components-checkbox__input[type="checkbox"],
 .woocommerce-page .wc-block-components-radio-control__input {
   border-color: #949494;
+}
+
+/* Product grid and Product Collection block buttons: Loose's filled button, so the content link colour can't darken their text. */
+.wc-block-grid__product-add-to-cart .wp-block-button__link,
+.wp-block-woocommerce-product-button .wp-block-button__link {
+  color: #fff;
+  background-color: #363636;
+  border: 1px solid #363636;
+}
+
+.wc-block-grid__product-add-to-cart .wp-block-button__link:hover,
+.wp-block-woocommerce-product-button .wp-block-button__link:hover {
+  color: #363636;
+  background-color: #fff;
+}
+
+.wc-block-grid__product-add-to-cart .wp-block-button__link:focus,
+.wp-block-woocommerce-product-button .wp-block-button__link:focus {
+  color: #fff;
+  background-color: #363636;
+}
+
+.wc-block-grid__product-add-to-cart .wp-block-button__link:focus-visible,
+.wp-block-woocommerce-product-button .wp-block-button__link:focus-visible {
+  outline: 2px solid #363636;
+  outline-offset: 2px;
+}
+
+.wc-block-grid__product-add-to-cart.wp-block-button a.wp-block-button__link.loading,
+.wc-block-grid__product-add-to-cart.wp-block-button a.wp-block-button__link.disabled,
+.wc-block-grid__product-add-to-cart.wp-block-button a.wp-block-button__link[disabled],
+.wp-block-woocommerce-product-button .wp-block-button__link.loading,
+.wp-block-woocommerce-product-button .wp-block-button__link.disabled,
+.wp-block-woocommerce-product-button .wp-block-button__link[disabled] {
+  color: #fff;
+  background-color: #767676;
+  border-color: #767676;
+  opacity: 1;
 }
 
 /* Visible focus on shop controls that otherwise have none. */
